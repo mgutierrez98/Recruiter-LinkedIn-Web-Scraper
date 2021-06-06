@@ -1,2 +1,2 @@
 # Recruiter-LinkedIn-Web-Scraper
-<h2>Work In Progress</h2>
+<h1>Work In Progress</h1>
