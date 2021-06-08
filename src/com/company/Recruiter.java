@@ -1,10 +1,11 @@
 package com.company;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Recruiter {
-    private String name, linkedinURL,email;
-    public  Recruiter(String name, String linkedinURL, String email) {
-        this.name = name;
+    private String linkedinURL;
+    public  Recruiter(String linkedinURL) {
         this.linkedinURL = linkedinURL;
-        this.email = email;
     }
 }
