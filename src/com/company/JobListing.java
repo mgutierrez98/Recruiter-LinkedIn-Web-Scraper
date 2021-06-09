@@ -3,23 +3,22 @@ package com.company;
 import java.util.ArrayList;
 
 public class JobListing {
-    private String title, company, location, summary;
-    private ArrayList<String> recruiters;
+    private String title, company, location, summary, recruiter;
 
     public JobListing(String title, String company, String location, String summary) {
         this.title = title;
         this.company = company;
         this.location = location;
         this.summary = summary;
-        this.recruiters = null;
+        this.recruiter = null;
     }
 
     public String getCompany() {
         return company;
     }
 
-    public void setRecruiters(ArrayList<String> recruiters) {
-        this.recruiters = recruiters;
+    public void setRecruiter(String recruiter) {
+        this.recruiter = recruiter;
     }
 
     public String getTitle() {
@@ -34,7 +33,7 @@ public class JobListing {
         return summary;
     }
 
-    public ArrayList<String> getRecruiters() {
-        return recruiters;
+    public String getRecruiter() {
+        return recruiter;
     }
 }

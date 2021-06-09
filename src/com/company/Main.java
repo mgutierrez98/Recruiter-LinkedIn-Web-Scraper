@@ -29,19 +29,38 @@ public class Main {
 
         JLabel indeedLinkLabel = new JLabel("Indeed Job Listing Link:", SwingConstants.CENTER);
         JTextField indeedLink = new JTextField();
-        String jobLink = String.valueOf(indeedLink);
-        IndeedScrapper(jobLink);
 
-        JButton start = new JButton("Start Scraping");
+        JButton start = new JButton("Start Grabbing");
         start.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                String email = JOptionPane.showInputDialog("Input your Linkedin email");
+                String jobLink = indeedLink.getText();
+                IndeedScrapper(jobLink);
+                String email = JOptionPane.showInputDialog("Input Linkedin email");
                 String password = JOptionPane.showInputDialog("Input Linkedin password");
                 LinkedinScrapper(email, password);
-
                 JFrame jobInfo = new JFrame("Job Listings & Recruiters");
+                String[] columnNames = {"Job Title", "Company", "Location", "Summary", "Recruiters"};
+
+                Object[][] data = new Object[jobsList.size()][5];
+                int x = 0;
+                for(int  i = 0; i < jobsList.size(); i++) {
+                    data[i][0] = jobsList.get(i).getTitle();
+                    data[i][1] = jobsList.get(i).getCompany();
+                    data[i][2] = jobsList.get(i).getLocation();
+                    data[i][3] = jobsList.get(i).getSummary();
+                    if(jobsList.get(i).getRecruiter() == null)  data[i][4] = "";
+                    else data[i][4] = jobsList.get(i).getRecruiter();
+                }
+
+                JTable table = new JTable(data, columnNames);
+                JScrollPane scrollPane = new JScrollPane(table);
+                table.setFillsViewportHeight(true);
+                jobInfo.add(scrollPane);
+                jobInfo.setSize(600,400);
+                jobInfo.setLocationRelativeTo(null);
+                jobInfo.setVisible(true);
+
             }
         });
 
@@ -105,12 +124,11 @@ public class Main {
                 String company = job.getCompany().replace(" ", "%20");
                 String url = "https://www.linkedin.com/search/results/people/?keywords=" + company + "%20recruiter&origin=SWITCH_SEARCH_VERTICAL";
                 driver.get(url);
-                List<WebElement> people = driver.findElements(By.xpath("//*[@id=\"main\"]/div/div/div[2]/ul/li"));
-                ArrayList<String> linkedinProfiles = new ArrayList<String>();
-                for (WebElement i : people) {
-                    linkedinProfiles.add(i.findElement(By.className("app-aware-link")).getAttribute("href"));
+                try {
+                    WebElement companyRecruiter = driver.findElement(By.className("reusable-search__result-container"));
+                    job.setRecruiter(companyRecruiter.findElement(By.className("app-aware-link")).getAttribute("href"));
+                }catch (Exception e) {
                 }
-                job.setRecruiters(linkedinProfiles);
             }
             driver.close();
             driver.quit();
