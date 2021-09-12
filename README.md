@@ -1,1 +1,1 @@
-# Recruiter-LinkedIn-Web-Scraper
+# Recruiter-Web-Scraper
